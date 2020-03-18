@@ -10,7 +10,29 @@ public class YourIPServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    String remoteAddr = req.getRemoteAddr();
+
+    String format = req.getParameter("format");
+    if(format == null){
+      format = "";
+    }
+
     PrintWriter out = resp.getWriter();
-    out.println(req.getRemoteAddr());
+
+    switch (format){
+      case "json":
+        resp.setContentType("application/json");
+        out.println("{\"ip\":\""+remoteAddr+"\"}");
+        break;
+      case "xml":
+        resp.setContentType("text/xml");
+        out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        out.println("<ip>"+remoteAddr+"</ip>");
+        break;
+      default:
+        resp.setContentType("text/plain");
+        out.println(remoteAddr);
+    }
   }
 }
