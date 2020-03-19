@@ -1,5 +1,7 @@
 package com.github.churakovIA;
 
+import com.github.churakovIA.mappers.RequestInfoMapper;
+import com.github.churakovIA.model.RequestInfo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,11 @@ public class YourIPServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     String remoteAddr = Util.getRealClientIP(req);
+
+    RequestInfo requestInfo = new RequestInfo();
+    requestInfo.setIp(remoteAddr);
+    requestInfo.setHeaders(Util.getRequestHeaders(req));
+    RequestInfoMapper mapper = new RequestInfoMapper(requestInfo);
 
     String format = req.getParameter("format");
     if(format == null){
@@ -27,8 +34,7 @@ public class YourIPServlet extends HttpServlet {
         break;
       case "xml":
         resp.setContentType("text/xml");
-        out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        out.println("<ip>"+remoteAddr+"</ip>");
+        mapper.toXML(out);
         break;
       default:
         resp.setContentType("text/plain");
