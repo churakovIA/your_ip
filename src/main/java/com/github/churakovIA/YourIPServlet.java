@@ -11,7 +11,7 @@ public class YourIPServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-    String remoteAddr = req.getRemoteAddr();
+    String remoteAddr = Util.getRealClientIP(req);
 
     String format = req.getParameter("format");
     if(format == null){
