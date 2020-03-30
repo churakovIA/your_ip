@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-class Util {
+public class Util {
 
-  static String getRealClientIP(HttpServletRequest req) {
+  public static String getRealClientIP(HttpServletRequest req) {
     String ip = "";
     if (req != null) {
       ip = req.getHeader("X-FORWARDED-FOR");
@@ -22,7 +22,7 @@ class Util {
     return ip;
   }
 
-  static Map<String, String> getRequestHeaders(HttpServletRequest request) {
+  public static Map<String, String> getRequestHeaders(HttpServletRequest request) {
 
     Map<String, String> result = new HashMap<>();
 
@@ -35,14 +35,29 @@ class Util {
     return result;
   }
 
-  static String inputStreamToString(InputStream in) throws IOException {
+  public static String getFullURL(HttpServletRequest request) {
+    StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
+    String queryString = request.getQueryString();
+
+    if (queryString == null) {
+      return requestURL.toString();
+    } else {
+      return requestURL.append('?').append(queryString).toString();
+    }
+  }
+
+  public static String inputStreamToString(InputStream in) throws IOException {
     return inputStreamToString(in, "UTF-8");
   }
 
   static String inputStreamToString(InputStream in, String charset) throws IOException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    inputToOutputStream(in, out);
-    return out.toString(charset);
+    if (in == null) {
+      return "";
+    } else {
+      ByteArrayOutputStream out = new ByteArrayOutputStream();
+      inputToOutputStream(in, out);
+      return out.toString(charset);
+    }
   }
 
   private static void inputToOutputStream(InputStream in, OutputStream out) throws IOException {

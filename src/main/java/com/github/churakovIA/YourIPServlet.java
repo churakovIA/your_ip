@@ -1,24 +1,21 @@
 package com.github.churakovIA;
 
 import com.github.churakovIA.mappers.RequestInfoMapper;
-import com.github.churakovIA.model.RequestInfo;
-import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.SneakyThrows;
 
 public class YourIPServlet extends HttpServlet {
 
+  @SneakyThrows
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
     String remoteAddr = Util.getRealClientIP(req);
 
-    RequestInfo requestInfo = new RequestInfo();
-    requestInfo.setIp(remoteAddr);
-    requestInfo.setHeaders(Util.getRequestHeaders(req));
-    RequestInfoMapper mapper = new RequestInfoMapper(requestInfo);
+    RequestInfoMapper mapper = RequestInfoMapper.getInstance(req);
 
     String format = req.getParameter("format");
     if(format == null){
@@ -42,16 +39,10 @@ public class YourIPServlet extends HttpServlet {
     }
   }
 
+  @SneakyThrows
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
     resp.setContentType("text/xml;charset=UTF-8");
-
-    RequestInfo requestInfo = new RequestInfo();
-    requestInfo.setIp(Util.getRealClientIP(req));
-    requestInfo.setHeaders(Util.getRequestHeaders(req));
-    requestInfo.setBody(Util.inputStreamToString(req.getInputStream()));
-    RequestInfoMapper mapper = new RequestInfoMapper(requestInfo);
-    mapper.toXML(resp.getWriter());
+    RequestInfoMapper.getInstance(req).toXML(resp.getWriter());
   }
 }

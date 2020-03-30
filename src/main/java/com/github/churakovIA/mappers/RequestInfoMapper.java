@@ -1,66 +1,51 @@
 package com.github.churakovIA.mappers;
 
+import com.github.churakovIA.Util;
 import com.github.churakovIA.model.RequestInfo;
+import com.github.churakovIA.util.DomProcessor;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Map.Entry;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
+import javax.servlet.http.HttpServletRequest;
 import org.w3c.dom.Element;
 
 public class RequestInfoMapper {
 
   private RequestInfo requestInfo;
 
-  public RequestInfoMapper(RequestInfo requestInfo) {
+  private RequestInfoMapper(RequestInfo requestInfo) {
     this.requestInfo = requestInfo;
   }
 
-  public void toXML(Writer writer) {
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder dBuilder;
-    try {
-      dBuilder = dbFactory.newDocumentBuilder();
-      Document doc = dBuilder.newDocument();
-      //root
-      Element rootElement = doc.createElement("RequestInfo");
-      doc.appendChild(rootElement);
-      //ip
-      Element nodeIP = doc.createElement("IP");
-      nodeIP.appendChild(doc.createTextNode(requestInfo.getIp()));
-      rootElement.appendChild(nodeIP);
-      //headers title
-      Element nodeHeaders = doc.createElement("Headers");
-      rootElement.appendChild(nodeHeaders);
-      //headers elements
-      for (Entry<String, String> entry : requestInfo.getHeaders().entrySet()) {
-        Element element = doc.createElement(entry.getKey());
-        element.appendChild(doc.createTextNode(entry.getValue()));
-        nodeHeaders.appendChild(element);
-      }
-      //body
-      String body = requestInfo.getBody();
-      if(body!=null && body.length()!=0){
-        Element nodeBody = doc.createElement("Body");
-        nodeBody.appendChild(doc.createCDATASection(requestInfo.getBody()));
-        rootElement.appendChild(nodeBody);
-      }
+  public static RequestInfoMapper getInstance(HttpServletRequest req) throws IOException{
+    RequestInfo requestInfo = new RequestInfo();
+    requestInfo.setProtocol(req.getProtocol());
+    requestInfo.setMethod(req.getMethod());
+    requestInfo.setFullURL(Util.getFullURL(req));
+    requestInfo.setLocale(req.getLocale().toLanguageTag());
+    requestInfo.setIp(Util.getRealClientIP(req));
+    requestInfo.setHeaders(Util.getRequestHeaders(req));
+    requestInfo.setBody(Util.inputStreamToString(req.getInputStream()));
+    return new RequestInfoMapper(requestInfo);
+  }
 
-      //write to string
-      TransformerFactory transformerFactory = TransformerFactory.newInstance();
-      Transformer transformer = transformerFactory.newTransformer();
-      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-      DOMSource source = new DOMSource(doc);
-      StreamResult result = new StreamResult(writer);
-      transformer.transform(source, result);
-
-    } catch (Exception e) {
-      e.printStackTrace();
+  public void toXML(Writer writer) throws Exception {
+    DomProcessor processor = new DomProcessor();
+    Element root = processor.addElement("RequestInfo");
+    processor.addElementWithText(root, "Protocol", requestInfo.getProtocol());
+    processor.addElementWithText(root, "Method", requestInfo.getMethod());
+    processor.addElementWithText(root, "FullURL", requestInfo.getFullURL());
+    processor.addElementWithText(root, "Locale", requestInfo.getLocale());
+    processor.addElementWithText(root, "IP", requestInfo.getIp());
+    Element nodeHeaders = processor.addElement(root, "Headers");
+    for (Entry<String, String> entry : requestInfo.getHeaders().entrySet()) {
+      processor.addElementWithText(nodeHeaders, entry.getKey(), entry.getValue());
     }
+    String body = requestInfo.getBody();
+    if (body != null && body.length() != 0) {
+      Element nodeBody = processor.addElement(root, "Body");
+      nodeBody.appendChild(processor.getDoc().createCDATASection(body));
+    }
+    processor.writeDoc(writer);
   }
 }

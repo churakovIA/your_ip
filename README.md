@@ -14,6 +14,10 @@ GET https://your-ip-2.herokuapp.com
 GET https://your-ip-2.herokuapp.com/?format=xml
 ```xml
   <RequestInfo>
+    <Protocol>HTTP/1.1</Protocol>
+    <Method>GET</Method>
+    <FullURL>https://your-ip-2.herokuapp.com/?format=xml</FullURL>
+    <Locale>ru-RU</Locale>
     <IP>93.100.53.35</IP>
     <Headers>
       <sec-fetch-mode>navigate</sec-fetch-mode>
@@ -41,6 +45,10 @@ My super body
 
 ```xml
   <RequestInfo>
+  <Protocol>HTTP/1.1</Protocol>
+  <Method>POST</Method>
+  <FullURL>https://your-ip-2.herokuapp.com/</FullURL>
+  <Locale>ru-RU</Locale>
     <IP>127.0.0.1</IP>
     <Headers>
       <sec-fetch-mode>navigate</sec-fetch-mode>
