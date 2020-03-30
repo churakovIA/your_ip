@@ -8,4 +8,5 @@ public class RequestInfo {
 
   private String ip;
   private Map<String, String> headers;
+  private String body;
 }

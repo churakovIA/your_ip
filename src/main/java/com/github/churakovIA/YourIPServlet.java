@@ -41,4 +41,17 @@ public class YourIPServlet extends HttpServlet {
         out.println(remoteAddr);
     }
   }
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    resp.setContentType("text/xml;charset=UTF-8");
+
+    RequestInfo requestInfo = new RequestInfo();
+    requestInfo.setIp(Util.getRealClientIP(req));
+    requestInfo.setHeaders(Util.getRequestHeaders(req));
+    requestInfo.setBody(Util.inputStreamToString(req.getInputStream()));
+    RequestInfoMapper mapper = new RequestInfoMapper(requestInfo);
+    mapper.toXML(resp.getWriter());
+  }
 }

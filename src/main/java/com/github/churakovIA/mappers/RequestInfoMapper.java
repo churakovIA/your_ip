@@ -43,6 +43,13 @@ public class RequestInfoMapper {
         element.appendChild(doc.createTextNode(entry.getValue()));
         nodeHeaders.appendChild(element);
       }
+      //body
+      String body = requestInfo.getBody();
+      if(body!=null && body.length()!=0){
+        Element nodeBody = doc.createElement("Body");
+        nodeBody.appendChild(doc.createCDATASection(requestInfo.getBody()));
+        rootElement.appendChild(nodeBody);
+      }
 
       //write to string
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
