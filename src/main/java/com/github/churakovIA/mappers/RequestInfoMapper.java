@@ -39,7 +39,8 @@ public class RequestInfoMapper {
     processor.addElementWithText(root, "IP", requestInfo.getIp());
     Element nodeHeaders = processor.addElement(root, "Headers");
     for (Entry<String, String> entry : requestInfo.getHeaders().entrySet()) {
-      processor.addElementWithText(nodeHeaders, entry.getKey(), entry.getValue());
+      processor.addElementWithText(nodeHeaders, "Header", entry.getValue())
+          .setAttribute("name", entry.getKey());
     }
     String body = requestInfo.getBody();
     if (body != null && body.length() != 0) {
