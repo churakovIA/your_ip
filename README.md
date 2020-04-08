@@ -35,7 +35,19 @@ GET https://your-ip-2.herokuapp.com/?format=xml
 ### Ответ формате json
 GET https://your-ip-2.herokuapp.com/?format=json
 ```json
-{"ip": "127.0.0.1"}
+{
+  "protocol": "HTTP/1.1",
+  "method": "GET",
+  "fullURL": "http://localhost:8080/?format=json",
+  "locale": "ru-RU",
+  "ip": "127.0.0.1",
+  "headers": {
+    "host": "localhost:8080",
+    "connection": "Keep-Alive",
+    "accept-encoding": "gzip,deflate",
+    "user-agent": "Apache-HttpClient/4.5.9 (Java/11.0.4)"
+  }
+}
 ```
 
 ### POST запрос. Ответ формате xml с body

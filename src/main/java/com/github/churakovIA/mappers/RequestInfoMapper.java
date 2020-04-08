@@ -3,6 +3,7 @@ package com.github.churakovIA.mappers;
 import com.github.churakovIA.Util;
 import com.github.churakovIA.model.RequestInfo;
 import com.github.churakovIA.util.DomProcessor;
+import com.github.churakovIA.util.JsonUtil;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map.Entry;
@@ -48,5 +49,9 @@ public class RequestInfoMapper {
       nodeBody.appendChild(processor.getDoc().createCDATASection(body));
     }
     processor.writeDoc(writer);
+  }
+
+  public void toJSON(Writer writer) {
+    JsonUtil.writeValue(writer, requestInfo);
   }
 }

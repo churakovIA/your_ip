@@ -27,7 +27,7 @@ public class YourIPServlet extends HttpServlet {
     switch (format){
       case "json":
         resp.setContentType("application/json");
-        out.println("{\"ip\":\""+remoteAddr+"\"}");
+        mapper.toJSON(out);
         break;
       case "xml":
         resp.setContentType("text/xml");
