@@ -8,6 +8,7 @@
 GET https://your-ip-2.herokuapp.com
 ```
 127.0.0.1
+GitHub: https://github.com/churakovIA/your_ip
 ```
 
 ### Получить ip в формате json
