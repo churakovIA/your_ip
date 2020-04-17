@@ -1,17 +1,30 @@
-# Web-Сервис для опредления вашего IP
+# Web-Сервис для анализа входящего http-запроса
 
+Сервис представляет собой набор методов для получения сведений о входящем запросе - 
+ip, headers, body и др. \
+Ответ можно получить в различных форматах: _text, xml, json_. \
+Может быть использован с целью отладки вашего сервиса. \
 Приложение доступно по адресу: https://your-ip-2.herokuapp.com
 
 ## API
+### API reference contents
+- GET[POST] /
+- GET /?format=xml
+- GET /?format=json
+- GET[POST] /json
+- GET[POST] /xml
+- GET[POST] /rq/json
+- GET[POST] /rq/xml
 
-### Ответ текстовом формате
+### Example Request
+#### Ответ текстовом формате
 GET https://your-ip-2.herokuapp.com
 ```
 127.0.0.1
 GitHub: https://github.com/churakovIA/your_ip
 ```
 
-### Получить ip в формате json
+#### Получить ip в формате json
 GET|POST https://your-ip-2.herokuapp.com/json
 ```
 {
@@ -19,14 +32,14 @@ GET|POST https://your-ip-2.herokuapp.com/json
 }
 ```
 
-### Получить ip в формате xml
+#### Получить ip в формате xml
 GET|POST https://your-ip-2.herokuapp.com/xml
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <ip>127.0.0.1</ip>
 ```
 
-### Получить инфо о get-запросе в формате json
+#### Получить инфо о get-запросе в формате json
 GET https://your-ip-2.herokuapp.com/rq/json
 ```
 {
@@ -44,7 +57,7 @@ GET https://your-ip-2.herokuapp.com/rq/json
 }
 ```
 
-### Получить инфо о post-запросе в формате json
+#### Получить инфо о post-запросе в формате json
 POST https://your-ip-2.herokuapp.com/rq/json
 
 <req>123</req>
@@ -67,7 +80,7 @@ POST https://your-ip-2.herokuapp.com/rq/json
 }
 ```
 
-### Получить инфо о get-запросе в формате xml
+#### Получить инфо о get-запросе в формате xml
 GET https://your-ip-2.herokuapp.com/rq/xml
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -86,7 +99,7 @@ GET https://your-ip-2.herokuapp.com/rq/xml
 </RequestInfo>
 ```
 
-### Получить инфо о post-запросе в формате xml
+#### Получить инфо о post-запросе в формате xml
 POST https://your-ip-2.herokuapp.com/rq/xml
 
 <req>123</req>
@@ -110,7 +123,7 @@ POST https://your-ip-2.herokuapp.com/rq/xml
 </RequestInfo>
 ```
 
-### Ответ формате xml
+#### Ответ формате xml
 GET https://your-ip-2.herokuapp.com/?format=xml
 ```xml
   <RequestInfo>
@@ -132,7 +145,7 @@ GET https://your-ip-2.herokuapp.com/?format=xml
   </RequestInfo>
 ```
 
-### Ответ формате json
+#### Ответ формате json
 GET https://your-ip-2.herokuapp.com/?format=json
 ```json
 {
@@ -150,7 +163,7 @@ GET https://your-ip-2.herokuapp.com/?format=json
 }
 ```
 
-### POST запрос. Ответ формате xml с body
+#### POST запрос. Ответ формате xml с body
 POST https://your-ip-2.herokuapp.com
 
 My super body
