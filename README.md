@@ -10,6 +10,105 @@ GET https://your-ip-2.herokuapp.com
 127.0.0.1
 ```
 
+### Получить ip в формате json
+GET|POST https://your-ip-2.herokuapp.com/json
+```
+{
+  "ip": "127.0.0.1"
+}
+```
+
+### Получить ip в формате xml
+GET|POST https://your-ip-2.herokuapp.com/xml
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>127.0.0.1</ip>
+```
+
+### Получить инфо о get-запросе в формате json
+GET https://your-ip-2.herokuapp.com/rq/json
+```
+{
+  "protocol": "HTTP/1.1",
+  "method": "GET",
+  "fullURL": "http://your-ip-2.herokuapp.com/rq/json",
+  "locale": "ru-RU",
+  "ip": "127.0.0.1",
+  "headers": {
+    "host": "your-ip-2.herokuapp.com",
+    "connection": "Keep-Alive",
+    "accept-encoding": "gzip,deflate",
+    "user-agent": "Apache-HttpClient/4.5.9 (Java/11.0.4)"
+  }
+}
+```
+
+### Получить инфо о post-запросе в формате json
+POST https://your-ip-2.herokuapp.com/rq/json
+
+<req>123</req>
+```
+{
+  "protocol": "HTTP/1.1",
+  "method": "POST",
+  "fullURL": "http://your-ip-2.herokuapp.com/rq/json",
+  "locale": "ru-RU",
+  "ip": "127.0.0.1",
+  "headers": {
+    "content-length": "14",
+    "host": "your-ip-2.herokuapp.com",
+    "content-type": "*/*; charset=UTF-8",
+    "connection": "Keep-Alive",
+    "accept-encoding": "gzip,deflate",
+    "user-agent": "Apache-HttpClient/4.5.9 (Java/11.0.4)"
+  },
+  "body": "<req>123</req>"
+}
+```
+
+### Получить инфо о get-запросе в формате xml
+GET https://your-ip-2.herokuapp.com/rq/xml
+```
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<RequestInfo>
+  <Protocol>HTTP/1.1</Protocol>
+  <Method>GET</Method>
+  <FullURL>http://your-ip-2.herokuapp.com/rq/xml</FullURL>
+  <Locale>ru-RU</Locale>
+  <IP>127.0.0.1</IP>
+  <Headers>
+    <Header name="host">your-ip-2.herokuapp.com</Header>
+    <Header name="connection">Keep-Alive</Header>
+    <Header name="accept-encoding">gzip,deflate</Header>
+    <Header name="user-agent">Apache-HttpClient/4.5.9 (Java/11.0.4)</Header>
+  </Headers>
+</RequestInfo>
+```
+
+### Получить инфо о post-запросе в формате xml
+POST https://your-ip-2.herokuapp.com/rq/xml
+
+<req>123</req>
+```
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<RequestInfo>
+  <Protocol>HTTP/1.1</Protocol>
+  <Method>POST</Method>
+  <FullURL>http://your-ip-2.herokuapp.com/rq/xml</FullURL>
+  <Locale>ru-RU</Locale>
+  <IP>127.0.0.1</IP>
+  <Headers>
+    <Header name="content-length">14</Header>
+    <Header name="host">your-ip-2.herokuapp.com</Header>
+    <Header name="content-type">*/*; charset=UTF-8</Header>
+    <Header name="connection">Keep-Alive</Header>
+    <Header name="accept-encoding">gzip,deflate</Header>
+    <Header name="user-agent">Apache-HttpClient/4.5.9 (Java/11.0.4)</Header>
+  </Headers>
+  <Body><![CDATA[<req>123</req>]]></Body>
+</RequestInfo>
+```
+
 ### Ответ формате xml
 GET https://your-ip-2.herokuapp.com/?format=xml
 ```xml
