@@ -39,11 +39,4 @@ public class YourIPServlet extends HttpServlet {
         out.println("GitHub: https://github.com/churakovIA/your_ip");
     }
   }
-
-  @SneakyThrows
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-    resp.setContentType("text/xml;charset=UTF-8");
-    RequestInfoMapper.getInstance(req).toXML(resp.getWriter());
-  }
 }
