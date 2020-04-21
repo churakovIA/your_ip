@@ -13,6 +13,7 @@ ip, headers, body и др. \
 - GET /?format=json
 - GET[POST] /json
 - GET[POST] /xml
+- GET[POST] /rq
 - GET[POST] /rq/json
 - GET[POST] /rq/xml
 
@@ -26,7 +27,7 @@ GitHub: https://github.com/churakovIA/your_ip
 
 #### Получить ip в формате json
 GET|POST https://your-ip-2.herokuapp.com/json
-```
+```json
 {
   "ip": "127.0.0.1"
 }
@@ -34,14 +35,52 @@ GET|POST https://your-ip-2.herokuapp.com/json
 
 #### Получить ip в формате xml
 GET|POST https://your-ip-2.herokuapp.com/xml
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <ip>127.0.0.1</ip>
 ```
 
+#### Получить инфо о get-запросе
+GET https://your-ip-2.herokuapp.com/rq
+```
+Protocol=HTTP/1.1
+Method=POST
+FullURL=http://your-ip-2.herokuapp.com/rq
+Locale=ru-RU
+IP=127.0.0.1
+
+content-length=179
+host=http://your-ip-2.herokuapp.com
+content-type=*/*; charset=UTF-8
+connection=Keep-Alive
+accept-encoding=gzip,deflate
+user-agent=Apache-HttpClient/4.5.9 (Java/11.0.4)
+```
+
+#### Получить инфо о post-запросе
+POST https://your-ip-2.herokuapp.com/rq
+
+<req>123</req>
+```
+Protocol=HTTP/1.1
+Method=POST
+FullURL=http://your-ip-2.herokuapp.com/rq
+Locale=ru-RU
+IP=127.0.0.1
+
+content-length=179
+host=http://your-ip-2.herokuapp.com
+content-type=*/*; charset=UTF-8
+connection=Keep-Alive
+accept-encoding=gzip,deflate
+user-agent=Apache-HttpClient/4.5.9 (Java/11.0.4)
+
+<req>123</req>
+```
+
 #### Получить инфо о get-запросе в формате json
 GET https://your-ip-2.herokuapp.com/rq/json
-```
+```json
 {
   "protocol": "HTTP/1.1",
   "method": "GET",
@@ -61,7 +100,7 @@ GET https://your-ip-2.herokuapp.com/rq/json
 POST https://your-ip-2.herokuapp.com/rq/json
 
 <req>123</req>
-```
+```json
 {
   "protocol": "HTTP/1.1",
   "method": "POST",
@@ -82,7 +121,7 @@ POST https://your-ip-2.herokuapp.com/rq/json
 
 #### Получить инфо о get-запросе в формате xml
 GET https://your-ip-2.herokuapp.com/rq/xml
-```
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <RequestInfo>
   <Protocol>HTTP/1.1</Protocol>
@@ -103,7 +142,7 @@ GET https://your-ip-2.herokuapp.com/rq/xml
 POST https://your-ip-2.herokuapp.com/rq/xml
 
 <req>123</req>
-```
+```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <RequestInfo>
   <Protocol>HTTP/1.1</Protocol>

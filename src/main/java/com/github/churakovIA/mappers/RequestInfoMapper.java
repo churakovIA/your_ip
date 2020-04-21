@@ -5,6 +5,7 @@ import com.github.churakovIA.model.RequestInfo;
 import com.github.churakovIA.util.DomProcessor;
 import com.github.churakovIA.util.JsonUtil;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ public class RequestInfoMapper {
     this.requestInfo = requestInfo;
   }
 
-  public static RequestInfoMapper getInstance(HttpServletRequest req) throws IOException{
+  public static RequestInfoMapper getInstance(HttpServletRequest req) throws IOException {
     RequestInfo requestInfo = new RequestInfo();
     requestInfo.setProtocol(req.getProtocol());
     requestInfo.setMethod(req.getMethod());
@@ -53,5 +54,23 @@ public class RequestInfoMapper {
 
   public void toJSON(Writer writer) {
     JsonUtil.writeValue(writer, requestInfo);
+  }
+
+  public void toString(Writer writer) {
+    PrintWriter pw = new PrintWriter(writer);
+    pw.println("Protocol=" + requestInfo.getProtocol());
+    pw.println("Method=" + requestInfo.getMethod());
+    pw.println("FullURL=" + requestInfo.getFullURL());
+    pw.println("Locale=" + requestInfo.getLocale());
+    pw.println("IP=" + requestInfo.getIp());
+    pw.println();
+    for (Entry<String, String> entry : requestInfo.getHeaders().entrySet()) {
+      pw.println(entry.getKey() + "=" + entry.getValue());
+    }
+    String body = requestInfo.getBody();
+    if (body != null && body.length() != 0) {
+      pw.println();
+      pw.println(body);
+    }
   }
 }
