@@ -16,6 +16,7 @@ ip, headers, body и др. \
 - GET[POST] /rq
 - GET[POST] /rq/json
 - GET[POST] /rq/xml
+- GET[POST] /wait/1000
 
 ### Example Request
 #### Ответ текстовом формате
@@ -200,4 +201,10 @@ GET https://your-ip-2.herokuapp.com/?format=json
     "user-agent": "Apache-HttpClient/4.5.9 (Java/11.0.4)"
   }
 }
+```
+
+#### Вернет ответ с задержкой 600мс
+GET https://your-ip-2.herokuapp.com/wait/600
+```
+wait=600ms
 ```
