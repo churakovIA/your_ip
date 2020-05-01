@@ -13,7 +13,12 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>YourIPServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <!--https://stackoverflow.com/a/4140659-->
+        <url-pattern/>
     </servlet-mapping>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404</location>
+    </error-page>
 </web-app>
