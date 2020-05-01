@@ -16,7 +16,7 @@ ip, headers, body и др. \
 - GET[POST] /rq
 - GET[POST] /rq/json
 - GET[POST] /rq/xml
-- GET[POST] /wait/1000
+- GET[POST] /wait/{milliseconds}
 
 ### Example Request
 #### Ответ текстовом формате
@@ -61,7 +61,7 @@ user-agent=Apache-HttpClient/4.5.9 (Java/11.0.4)
 #### Получить инфо о post-запросе
 POST https://your-ip-2.herokuapp.com/rq
 
-<req>123</req>
+\<req>123\</req>
 ```
 Protocol=HTTP/1.1
 Method=POST
@@ -100,7 +100,7 @@ GET https://your-ip-2.herokuapp.com/rq/json
 #### Получить инфо о post-запросе в формате json
 POST https://your-ip-2.herokuapp.com/rq/json
 
-<req>123</req>
+\<req>123\</req>
 ```json
 {
   "protocol": "HTTP/1.1",
@@ -142,7 +142,7 @@ GET https://your-ip-2.herokuapp.com/rq/xml
 #### Получить инфо о post-запросе в формате xml
 POST https://your-ip-2.herokuapp.com/rq/xml
 
-<req>123</req>
+\<req>123\</req>
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <RequestInfo>
