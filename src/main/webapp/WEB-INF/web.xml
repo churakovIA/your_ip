@@ -6,6 +6,11 @@
 
     <display-name>YourIP</display-name>
 
+    <context-param>
+        <param-name>projectUrl</param-name>
+        <param-value>https://github.com/churakovIA/your_ip</param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>YourIPServlet</servlet-name>
         <servlet-class>com.github.churakovIA.YourIPServlet</servlet-class>

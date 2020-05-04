@@ -15,7 +15,7 @@ public class NotFoundServlet extends HttpServlet {
     resp.setContentType("text/plain");
     PrintWriter out = resp.getWriter();
     out.println("404 (Not found): " + req.getAttribute("javax.servlet.error.request_uri"));
-    out.println("see docs api: https://github.com/churakovIA/your_ip/blob/master/README.md");
+    out.println("see docs api: " + getServletContext().getInitParameter("projectUrl"));
   }
 
   @Override

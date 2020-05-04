@@ -36,7 +36,7 @@ public class YourIPServlet extends HttpServlet {
       default:
         resp.setContentType("text/plain");
         out.println(remoteAddr);
-        out.println("GitHub: https://github.com/churakovIA/your_ip");
+        out.println("GitHub: " + getServletContext().getInitParameter("projectUrl"));
     }
   }
 }
