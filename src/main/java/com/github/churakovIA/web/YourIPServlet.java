@@ -1,17 +1,17 @@
-package com.github.churakovIA;
+package com.github.churakovIA.web;
 
 import com.github.churakovIA.mappers.RequestInfoMapper;
+import com.github.churakovIA.util.Util;
+import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.SneakyThrows;
 
 public class YourIPServlet extends HttpServlet {
 
-  @SneakyThrows
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     String remoteAddr = Util.getRealClientIP(req);
 

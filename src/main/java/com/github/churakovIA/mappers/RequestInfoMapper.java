@@ -1,14 +1,16 @@
 package com.github.churakovIA.mappers;
 
-import com.github.churakovIA.Util;
 import com.github.churakovIA.model.RequestInfo;
 import com.github.churakovIA.util.DomProcessor;
 import com.github.churakovIA.util.JsonUtil;
+import com.github.churakovIA.util.Util;
+import com.github.churakovIA.util.exeption.ApplicationException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.transform.TransformerException;
 import org.w3c.dom.Element;
 
 public class RequestInfoMapper {
@@ -31,7 +33,7 @@ public class RequestInfoMapper {
     return new RequestInfoMapper(requestInfo);
   }
 
-  public void toXML(Writer writer) throws Exception {
+  public void toXML(Writer writer)  {
     DomProcessor processor = new DomProcessor();
     Element root = processor.addElement("RequestInfo");
     processor.addElementWithText(root, "Protocol", requestInfo.getProtocol());
@@ -49,7 +51,11 @@ public class RequestInfoMapper {
       Element nodeBody = processor.addElement(root, "Body");
       nodeBody.appendChild(processor.getDoc().createCDATASection(body));
     }
-    processor.writeDoc(writer);
+    try {
+      processor.writeDoc(writer);
+    } catch (TransformerException e) {
+      throw new ApplicationException("Ошибка xml", e);
+    }
   }
 
   public void toJSON(Writer writer) {

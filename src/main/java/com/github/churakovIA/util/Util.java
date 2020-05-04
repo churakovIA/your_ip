@@ -1,4 +1,4 @@
-package com.github.churakovIA;
+package com.github.churakovIA.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

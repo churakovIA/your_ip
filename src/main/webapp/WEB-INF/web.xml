@@ -13,7 +13,7 @@
 
     <servlet>
         <servlet-name>YourIPServlet</servlet-name>
-        <servlet-class>com.github.churakovIA.YourIPServlet</servlet-class>
+        <servlet-class>com.github.churakovIA.web.YourIPServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>

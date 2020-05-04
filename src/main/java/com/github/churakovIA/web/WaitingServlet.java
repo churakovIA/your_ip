@@ -1,14 +1,13 @@
-package com.github.churakovIA;
+package com.github.churakovIA.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/wait/*")
-public class WaitingServlet extends HttpServlet {
+public class WaitingServlet extends AbstractServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -21,13 +20,8 @@ public class WaitingServlet extends HttpServlet {
     try {
       Thread.sleep(millis);
     } catch (InterruptedException e) {
-      resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       e.printStackTrace(out);
     }
-  }
-
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    doGet(req, resp);
   }
 }
