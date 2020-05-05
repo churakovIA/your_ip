@@ -2,6 +2,7 @@
 - [X] Рефакторинг сервлетов (общий предок?)
 - [X] Exceptions
 - [ ] Tests
+- [ ] Logging
 - [ ] Информация о сертификате ssl
 - [X] 404
 - [ ] Code review - travis, codecy
