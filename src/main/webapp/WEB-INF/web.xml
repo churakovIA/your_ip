@@ -39,4 +39,7 @@
         <error-code>404</error-code>
         <location>/404</location>
     </error-page>
+    <error-page>
+        <location>/GlobalExceptionHandler</location>
+    </error-page>
 </web-app>
