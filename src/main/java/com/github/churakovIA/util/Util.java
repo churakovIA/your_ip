@@ -51,7 +51,7 @@ public class Util {
   }
 
   static String inputStreamToString(InputStream in, String charset) throws IOException {
-    if (in == null || in.available() == 0) {
+    if (in == null) {
       return null;
     } else {
       ByteArrayOutputStream out = new ByteArrayOutputStream();
