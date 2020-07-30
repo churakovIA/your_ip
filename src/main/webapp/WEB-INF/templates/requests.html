@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>История запросов</title>
+  <meta charset="utf-8"/>
+</head>
+<body>
+<h1>История запросов</h1>
+
+<form action="/rq/view">
+  <label for="items">Количество последних запросов:</label>
+  <input id="items" type="number" min="1" name="items" th:value="${items}"/><br>
+  <label for="ip">IP:</label>
+  <input id="ip" type="text" name="ip" th:value="${ip}"/><br>
+  <br><input type="submit" value="FILTER">
+</form>
+<br>
+<table border="1" th:object="${requests}">
+  <tr>
+    <th>ID</th>
+    <th>DATE</th>
+    <th>IP</th>
+    <th>METHOD</th>
+    <th>URL</th>
+    <th>LOCALE</th>
+    <th>PROTOCOL</th>
+    <th>BODY</th>
+  </tr>
+  <tr th:each="req : ${requests}">
+    <td th:text="${req.id}"></td>
+    <td th:text="${req.date}"></td>
+    <td th:text="${req.ip}"></td>
+    <td th:text="${req.method}"></td>
+    <td th:text="${req.fullUrl}"></td>
+    <td th:text="${req.locale}"></td>
+    <td th:text="${req.protocol}"></td>
+    <td th:text="${req.body}"></td>
+  </tr>
+</table>
+</body>
+</html>

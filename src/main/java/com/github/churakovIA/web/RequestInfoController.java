@@ -1,19 +1,17 @@
 package com.github.churakovIA.web;
 
+import com.github.churakovIA.config.TemplateEngineUtil;
 import com.github.churakovIA.persist.dao.RequestInfoDao;
 import com.github.churakovIA.persist.dao.RequestInfoDaoImpl;
-import com.github.churakovIA.to.RequestInfoTo;
-import com.github.churakovIA.util.JsonUtil;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 
 @WebServlet("/rq/view")
 public class RequestInfoController extends HttpServlet {
@@ -22,16 +20,29 @@ public class RequestInfoController extends HttpServlet {
   private final RequestInfoDao dao = RequestInfoDaoImpl.getInstance();
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     log.debug("call view requests");
 
-    PrintWriter writer = resp.getWriter();
-    List<RequestInfoTo> last = dao.getLast(10);
-    for (RequestInfoTo to : last) {
-      writer.println(JsonUtil.writeValue(to));
-      writer.println("\n-------------------------------------------------\n");
+    int items;
+    String parameter = req.getParameter("items");
+    try {
+      items = Integer.parseInt(parameter);
+    } catch (NumberFormatException e) {
+      items = 10;
     }
+
+    String ip = req.getParameter("ip");
+    if (ip == null) {
+      ip = "";
+    }
+
+    TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
+    WebContext context = new WebContext(req, resp, req.getServletContext());
+    context.setVariable("items", items);
+    context.setVariable("ip", ip);
+    context.setVariable("requests", dao.getLast(items));
+    engine.process("requests.html", context, resp.getWriter());
+
   }
 }
