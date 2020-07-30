@@ -12,7 +12,9 @@ public interface RequestInfoDao {
 
   List<RequestInfo> getAll();
 
-  List<RequestInfoTo> getLast(int count);
+  List<RequestInfoTo> getFiltered(int count);
+
+  List<RequestInfoTo> getFiltered(int count, String ip);
 
   void deleteFirst(int count);
 }

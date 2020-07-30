@@ -3,7 +3,9 @@ package com.github.churakovIA.web;
 import com.github.churakovIA.config.TemplateEngineUtil;
 import com.github.churakovIA.persist.dao.RequestInfoDao;
 import com.github.churakovIA.persist.dao.RequestInfoDaoImpl;
+import com.github.churakovIA.to.RequestInfoTo;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +43,13 @@ public class RequestInfoController extends HttpServlet {
     WebContext context = new WebContext(req, resp, req.getServletContext());
     context.setVariable("items", items);
     context.setVariable("ip", ip);
-    context.setVariable("requests", dao.getLast(items));
+    List<RequestInfoTo> filtered;
+    if ("".equals(ip)) {
+      filtered = dao.getFiltered(items);
+    } else {
+      filtered = dao.getFiltered(items, ip);
+    }
+    context.setVariable("requests", filtered);
     engine.process("requests.html", context, resp.getWriter());
 
   }

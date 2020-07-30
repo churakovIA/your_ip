@@ -30,6 +30,7 @@ public class RequestInfoDaoImpl implements RequestInfoDao {
   private static final String INSERT_HEADERS = "INSERT INTO headers (request_id, name, value) VALUES (?,?,?)";
   private static final String LAST = "SELECT r.id, r.date, r.ip, r.method, r.full_url, r.locale, r.protocol, r.body, h.name, h.value FROM requests r JOIN headers h on R.id = h.request_id AND r.id IN (SELECT id FROM requests ORDER BY date LIMIT ?) ORDER BY r.date desc, h.name";
   private static final String LAST_REQUESTS = "SELECT id, date, ip, method, full_url, locale, protocol, body FROM requests WHERE id IN (SELECT id FROM requests ORDER BY date desc LIMIT ?) ORDER BY date desc";
+  private static final String LAST_REQUESTS_BY_IP = "SELECT id, date, ip, method, full_url, locale, protocol, body FROM requests WHERE id IN (SELECT id FROM requests WHERE ip LIKE ? ORDER BY date desc LIMIT ?) ORDER BY date desc";
   private static final String HEADERS = "SELECT request_id, name, value FROM headers WHERE request_id IN (SELECT * FROM unnest(?)) ORDER BY request_id, name desc";
 
   @Override
@@ -94,41 +95,59 @@ public class RequestInfoDaoImpl implements RequestInfoDao {
   }
 
   @Override
-  public List<RequestInfoTo> getLast(int count) {
-    Map<Integer, RequestInfoTo> requestInfoMap = new LinkedHashMap<>();
+  public List<RequestInfoTo> getFiltered(int count) {
     try (PreparedStatement statementRequest = connection.prepareStatement(LAST_REQUESTS);
         PreparedStatement statementHeader = connection.prepareStatement(HEADERS)) {
       statementRequest.setInt(1, count);
-      try (ResultSet rs = statementRequest.executeQuery()) {
-        while (rs.next()) {
-          RequestInfoTo req = RequestInfoTo.builder()
-              .id(rs.getInt(1))
-              .date(rs.getTimestamp(2).toString())
-              .ip(rs.getString(3))
-              .method(rs.getString(4))
-              .fullURL(rs.getString(5))
-              .locale(rs.getString(6))
-              .protocol(rs.getString(7))
-              .body(rs.getString(8))
-              .headers(new LinkedHashMap<>())
-              .build();
-          requestInfoMap.put(req.getId(), req);
-        }
-      }
-
-      statementHeader
-          .setArray(1, connection.createArrayOf("INTEGER", requestInfoMap.keySet().toArray()));
-      try (ResultSet rs = statementHeader.executeQuery()) {
-        while (rs.next()) {
-          requestInfoMap.get(rs.getInt(1)).getHeaders().put(rs.getString(2), rs.getString(3));
-        }
-      }
-
-      return new ArrayList<>(requestInfoMap.values());
+      return fillRequestInfoList(statementRequest, statementHeader);
     } catch (SQLException e) {
       log.error(e.getMessage());
       throw new ApplicationException("Ошибка при получении", e);
     }
+  }
+
+  @Override
+  public List<RequestInfoTo> getFiltered(int count, String ip) {
+    try (PreparedStatement statementRequest = connection.prepareStatement(LAST_REQUESTS_BY_IP);
+        PreparedStatement statementHeader = connection.prepareStatement(HEADERS)) {
+      statementRequest.setString(1, "%" + ip + "%");
+      statementRequest.setInt(2, count);
+      return fillRequestInfoList(statementRequest, statementHeader);
+    } catch (SQLException e) {
+      log.error(e.getMessage());
+      throw new ApplicationException("Ошибка при получении", e);
+    }
+  }
+
+  private List<RequestInfoTo> fillRequestInfoList(PreparedStatement statementRequest,
+      PreparedStatement statementHeader)
+      throws SQLException {
+    Map<Integer, RequestInfoTo> requestInfoMap = new LinkedHashMap<>();
+    try (ResultSet rs = statementRequest.executeQuery()) {
+      while (rs.next()) {
+        RequestInfoTo req = RequestInfoTo.builder()
+            .id(rs.getInt(1))
+            .date(rs.getTimestamp(2).toString())
+            .ip(rs.getString(3))
+            .method(rs.getString(4))
+            .fullURL(rs.getString(5))
+            .locale(rs.getString(6))
+            .protocol(rs.getString(7))
+            .body(rs.getString(8))
+            .headers(new LinkedHashMap<>())
+            .build();
+        requestInfoMap.put(req.getId(), req);
+      }
+    }
+
+    statementHeader
+        .setArray(1, connection.createArrayOf("INTEGER", requestInfoMap.keySet().toArray()));
+    try (ResultSet rs = statementHeader.executeQuery()) {
+      while (rs.next()) {
+        requestInfoMap.get(rs.getInt(1)).getHeaders().put(rs.getString(2), rs.getString(3));
+      }
+    }
+    return new ArrayList<>(requestInfoMap.values());
   }
 
   @Override
