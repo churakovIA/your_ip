@@ -5,18 +5,14 @@ import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @WebServlet("/rq")
-public class RequestTextServlet extends AbstractServlet {
-  private final static Logger log = LoggerFactory.getLogger(RequestTextServlet.class);
+public class RequestTextServlet extends AbstractRequestServlet {
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    log.debug("Request InputStream: {}",
-        req.getInputStream() == null ? "null" : req.getInputStream().available());
+  protected void processRequest(RequestInfoMapper mapper, HttpServletRequest req,
+      HttpServletResponse resp) throws IOException {
     resp.setContentType("text/plain");
-    RequestInfoMapper.getInstance(req).toString(resp.getWriter());
+    mapper.toString(resp.getWriter());
   }
 }

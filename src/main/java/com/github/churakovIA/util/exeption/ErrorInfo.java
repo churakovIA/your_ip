@@ -1,5 +1,7 @@
 package com.github.churakovIA.util.exeption;
 
+import java.util.Arrays;
+
 public class ErrorInfo {
 
   private final String uri;
@@ -28,5 +30,15 @@ public class ErrorInfo {
 
   public String[] getDetails() {
     return details;
+  }
+
+  @Override
+  public String toString() {
+    return "ErrorInfo{" +
+        "uri='" + uri + '\'' +
+        ", statusCode=" + statusCode +
+        ", servletName='" + servletName + '\'' +
+        ", details=" + Arrays.toString(details) +
+        '}';
   }
 }

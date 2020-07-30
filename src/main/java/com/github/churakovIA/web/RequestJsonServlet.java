@@ -7,11 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/rq/json")
-public class RequestJsonServlet extends AbstractServlet {
+public class RequestJsonServlet extends AbstractRequestServlet {
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  protected void processRequest(RequestInfoMapper mapper, HttpServletRequest req,
+      HttpServletResponse resp) throws IOException {
     resp.setContentType("application/json");
-    RequestInfoMapper.getInstance(req).toJSON(resp.getWriter());
+    mapper.toJSON(resp.getWriter());
   }
 }

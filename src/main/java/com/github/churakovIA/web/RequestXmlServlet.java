@@ -7,11 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/rq/xml")
-public class RequestXmlServlet extends AbstractServlet {
+public class RequestXmlServlet extends AbstractRequestServlet {
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  protected void processRequest(RequestInfoMapper mapper, HttpServletRequest req,
+      HttpServletResponse resp) throws IOException {
     resp.setContentType("text/xml");
-    RequestInfoMapper.getInstance(req).toXML(resp.getWriter());
+    mapper.toXML(resp.getWriter());
   }
 }

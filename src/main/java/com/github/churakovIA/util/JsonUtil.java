@@ -1,6 +1,7 @@
 package com.github.churakovIA.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.Writer;
@@ -18,6 +19,14 @@ public class JsonUtil {
     try {
       MAPPER.writerWithDefaultPrettyPrinter().writeValue(out, obj);
     } catch (IOException e) {
+      throw new IllegalStateException("Invalid write to JSON:\n'" + obj + "'", e);
+    }
+  }
+
+  public static <T> String writeValue(T obj) {
+    try {
+      return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+    } catch (JsonProcessingException e) {
       throw new IllegalStateException("Invalid write to JSON:\n'" + obj + "'", e);
     }
   }

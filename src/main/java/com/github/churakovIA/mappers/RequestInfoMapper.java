@@ -33,7 +33,11 @@ public class RequestInfoMapper {
     return new RequestInfoMapper(requestInfo);
   }
 
-  public void toXML(Writer writer)  {
+  public RequestInfo getRequestInfo() {
+    return requestInfo;
+  }
+
+  public void toXML(Writer writer) {
     DomProcessor processor = new DomProcessor();
     Element root = processor.addElement("RequestInfo");
     processor.addElementWithText(root, "Protocol", requestInfo.getProtocol());
