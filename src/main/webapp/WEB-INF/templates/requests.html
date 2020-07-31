@@ -3,7 +3,6 @@
 <head>
   <title>История запросов</title>
   <meta charset="utf-8"/>
-  <!--  <link rel="stylesheet" href="webjars/bootstrap/4.5.0/css/bootstrap.min.css">-->
   <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 </head>
 <body>
@@ -36,26 +35,32 @@
 
   <hr class="my-4">
 
-  <table class="table table-bordered table-striped table-sm" th:object="${requests}">
+  <table class="table table-bordered table-sm" th:object="${requests}">
     <tr>
-      <th>ID</th>
-      <th>DATE</th>
-      <th>IP</th>
-      <th>METHOD</th>
-      <th>URL</th>
-      <th>LOCALE</th>
-      <th>PROTOCOL</th>
+      <th>REQUEST</th>
+      <th>HEADERS</th>
       <th>BODY</th>
     </tr>
     <tr th:each="req : ${requests}">
-      <td th:text="${req.id}"></td>
-      <td th:text="${req.date}"></td>
-      <td th:text="${req.ip}"></td>
-      <td th:text="${req.method}"></td>
-      <td th:text="${req.fullUrl}"></td>
-      <td th:text="${req.locale}"></td>
-      <td th:text="${req.protocol}"></td>
-      <td th:text="${req.body}"></td>
+      <td>
+        <table class="table-borderless table-sm">
+          <tr><th>DATE:</th><td th:text="${req.date}"></td></tr>
+          <tr><th>METHOD:</th><td th:text="${req.method}"></td></tr>
+          <tr><th>IP:</th><td th:text="${req.ip}"></td></tr>
+          <tr><th>URL:</th><td th:text="${req.fullUrl}"></td></tr>
+          <tr><th>LOCALE:</th><td th:text="${req.locale}"></td></tr>
+          <tr><th>PROTOCOL:</th><td th:text="${req.protocol}"></td></tr>
+          <tr><th>ID:</th><td th:text="${req.id}"></td></tr>
+        </table>
+      </td>
+      <td>
+        <table class="table-borderless table-sm">
+          <tr th:each="header : ${req.headers}">
+            <th th:text="${header.key}"></th><td th:text="${header.value}"></td>
+          </tr>
+        </table>
+      </td>
+      <td><pre><code th:text="${req.body}"></code></pre></td>
     </tr>
   </table>
 </div>
