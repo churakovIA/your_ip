@@ -51,7 +51,10 @@
           <tr><th>URL:</th><td th:text="${req.fullUrl}"></td></tr>
           <tr><th>LOCALE:</th><td th:text="${req.locale}"></td></tr>
           <tr><th>PROTOCOL:</th><td th:text="${req.protocol}"></td></tr>
-          <tr><th>ID:</th><td th:text="${req.id}"></td></tr>
+          <tr>
+            <th>ID:</th>
+            <td><a th:text="${req.id}" th:href="@{/rq/view/{id}(id=${req.id})}"></a></td>
+          </tr>
         </table>
       </td>
       <td>
