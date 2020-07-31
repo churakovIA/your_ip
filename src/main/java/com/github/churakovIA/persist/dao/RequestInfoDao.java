@@ -8,7 +8,7 @@ public interface RequestInfoDao {
 
   void save(RequestInfo requestInfo);
 
-  RequestInfo get(int id);
+  RequestInfoTo get(int id);
 
   List<RequestInfo> getAll();
 

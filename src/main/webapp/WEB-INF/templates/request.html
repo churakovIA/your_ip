@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Your ip. Запрос</title>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
+  <link rel="icon" type="image/png" href="/resources/images/network_1989.png">
+</head>
+<body>
+<div class="container-fluid">
+
+  <table class="table table-bordered table-sm">
+    <tr>
+      <th>REQUEST</th>
+      <th>HEADERS</th>
+      <th>BODY</th>
+    </tr>
+    <tr>
+      <td>
+        <table class="table-borderless table-sm">
+          <tr><th>DATE:</th><td th:text="${req.date}"></td></tr>
+          <tr><th>METHOD:</th><td th:text="${req.method}"></td></tr>
+          <tr><th>IP:</th><td th:text="${req.ip}"></td></tr>
+          <tr><th>URL:</th><td th:text="${req.fullUrl}"></td></tr>
+          <tr><th>LOCALE:</th><td th:text="${req.locale}"></td></tr>
+          <tr><th>PROTOCOL:</th><td th:text="${req.protocol}"></td></tr>
+          <tr><th>ID:</th><td th:text="${req.id}"></td></tr>
+        </table>
+      </td>
+      <td>
+        <table class="table-borderless table-sm">
+          <tr th:each="header : ${req.headers}">
+            <th th:text="${header.key}"></th><td th:text="${header.value}"></td>
+          </tr>
+        </table>
+      </td>
+      <td><pre><code th:text="${req.body}"></code></pre></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
