@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 
 public class JsonUtil {
@@ -28,6 +29,14 @@ public class JsonUtil {
       return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
     } catch (JsonProcessingException e) {
       throw new IllegalStateException("Invalid write to JSON:\n'" + obj + "'", e);
+    }
+  }
+
+  public static <T> T readValue(InputStream is, Class<T> clazz) {
+    try {
+      return MAPPER.readValue(is, clazz);
+    } catch (IOException e) {
+      throw new IllegalStateException("Invalid read JSON", e);
     }
   }
 }
